@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Administrador de Ventas</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400&display=swap');
+
+body {
+  background: #E1E2E1;
+   font-family: 'Roboto';
+}
+
+h1 {
+  color: #21618c;
+  text-align: center;
+}
+
+a:link, a:visited {
+  background-color: #21618c;
+  color: #E1E2E1;
+  border: 2px solid #E1E2E1;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  
+}
+
+a:hover, a:active {
+  background-color: #E1E2E1;
+  color: #21618c;
+  border: 2px solid #E1E2E1;
+}
+
+#customers {
+  
+  border-collapse: collapse;
+  color: #21618c;
+  margin-bottom: 5px;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {
+background-color: #21618c;
+color: #E1E2E1;
+
+}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #21618c;
+  color: white;
+}
+
+</style>
+
+
+</head>
+<body>
+	<div  class="container" align="center">
+		<h1>Listado de Ventas</h1>
+		<br />
+
+		<table>
+			<tbody>
+				<tr>
+				<th><a href="/tienda/ventas/list">Volver al listado de ventas</a></th>
+					
+					<th>&nbsp;</th>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<table>
+			
+			<tbody>
+				<tr  th:each="venta : ${listVentas}">
+					<table id="customers">
+						<thead>
+							<tr>
+								<th colspan="1" rowspan="1" >Venta ID</th>
+								<th colspan="1" rowspan="1">Fecha</th>
+								<th colspan="1" rowspan="1">Cliente Nombre</th>
+								<th colspan="1" rowspan="1">Cliente Apellido</th>
+								<th colspan="1" rowspan="1">Importe</th>
+								<th colspan="1" rowspan="1">Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td th:text="${venta.id}">Venta ID</td>
+								<td th:text="${venta.fecha}">Fecha</td>
+								<td th:text="${venta.cliente.nombre}">Nombre</td>
+								<td th:text="${venta.cliente.apellido}">Apellido</td>
+								<td th:text="${venta.importeFinal}" class="number"	style="text-align: right;">Importe Final</td>
+								<td>
+									
+										<a th:href="@{'/tienda/ventas/' + ${venta.id} +'/item/new'}">Agregar Item</a>
+									
+
+								</td>
+								<table id="customers">
+									<thead>
+										<tr  style="background:blue;color:white">
+											<th>ID</th>
+											<th>Cantidad</th>
+											<th>Prenda</th>
+											<th>Importe</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="item : ${venta.items}">
+											<td th:text="${item.id}">Item ID</td>
+											<td th:text="${item.cantidad}">Cantidad</td>
+											<td th:text="${item.prenda.descripcion}">Prenda</td>
+											<td th:text="${item.importe}" class="number">Importe</td>
+											<td>
+												<a th:href="@{'/tienda/item/edit/' + ${item.id}}">Editar</a> 
+												&nbsp;&nbsp;&nbsp;
+												<a th:href="@{'/tienda/item/delete/' + ${item.id}}">Borrar</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</tr>
+						</tbody>
+					</table>
+				</tr>
+			</tbody>
+		</table>	
+	</div>
+</body>
+</html>
